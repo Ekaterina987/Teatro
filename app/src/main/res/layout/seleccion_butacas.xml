@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SeleccionButacas">
+
+    <TextView
+        android:id="@+id/textNum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/numPicker"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="80dp"
+        android:layout_marginEnd="144dp"
+        android:layout_marginBottom="81dp"
+        android:layout_toStartOf="@+id/numPicker"
+        android:text="@string/text_num" />
+
+    <NumberPicker
+        android:id="@+id/numPicker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="20dp">
+
+    </NumberPicker>
+
+    <TextView
+        android:id="@+id/seleccionadas"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textNum"
+        android:layout_marginTop="-59dp"
+        android:layout_marginEnd="148dp"
+        android:layout_toStartOf="@+id/numPicker"
+        android:text="" />
+
+    <TableLayout
+        android:id="@+id/tableLayout"
+        android:layout_width="367dp"
+        android:layout_height="249dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="283dp"
+        android:layout_marginEnd="20dp"></TableLayout>
+
+    <Button
+        android:id="@+id/btnComprarEntrada"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="165dp"
+        android:layout_marginEnd="107dp"
+        android:text="Comprar entradas" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="254dp"
+        android:layout_height="75dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="534dp"
+        android:layout_marginEnd="77dp"
+        android:orientation="horizontal">
+
+    </LinearLayout>
+
+
+</RelativeLayout>

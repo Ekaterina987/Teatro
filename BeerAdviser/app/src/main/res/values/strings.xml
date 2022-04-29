@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Recomendador de cervezas</string>
+    <string name="rec_cerveza">Recomienda cerveza</string>
+    <string name="encuentra_cerveza">Encuentra cerveza</string>
+    <string name="marcas">No hay cervezas seleccionadas</string>
+    <string-array name="colores_cerveza">
+        <item>clara</item>
+        <item>ambar</item>
+        <item>marrón</item>
+        <item>oscura</item>
+    </string-array>
+
+</resources>
