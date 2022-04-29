@@ -18,8 +18,8 @@ class SeleccionButacas : AppCompatActivity() {
         val tableLayout = findViewById<TableLayout>(R.id.tableLayout)
         val numberPicker = findViewById<NumberPicker>(R.id.numPicker)
         val seleccion = findViewById<TextView>(R.id.seleccionadas)
-        var txtButaca1 = findViewById<TextView>(R.id.butaca1)
-        var txtButaca2 = findViewById<TextView>(R.id.butaca2)
+        val txtButaca1 = findViewById<TextView>(R.id.butaca1)
+        val txtButaca2 = findViewById<TextView>(R.id.butaca2)
 
         numberPicker.minValue = 0
         numberPicker.maxValue = 2
@@ -28,19 +28,26 @@ class SeleccionButacas : AppCompatActivity() {
         numberPicker.setOnValueChangedListener { picker, oldVal, newVal ->
             seleccion.text = String.format(getString(R.string.text_sel) + " %s", newVal)
 
-            txtButaca1.text = if (newVal == 1 || newVal == 2)  getString(R.string.text_butaca1) else ""
-            txtButaca2.text = if (newVal == 2)  getString(R.string.text_butaca2) else ""
+            if(newVal == 0){
+                txtButaca1.text = ""
+                txtButaca2.text = ""
+            }else if(newVal == 1){
+                txtButaca1.text = getString(R.string.text_butaca1)
+            }else if(newVal ==2){
+                txtButaca1.text = getString(R.string.text_butaca1)
+                txtButaca2.text = getString(R.string.text_butaca2)
+            }
         }
 
         var seatsSet = 0
 
 
-        var seats = Array(50){
+        val seats = Array(50){
             false
         }
 
 
-        var asientos = arrayListOf<Butaca>()
+        val asientos = arrayListOf<Butaca>()
 
         val btc = mutableMapOf<Int, Butaca>()
 
@@ -52,7 +59,7 @@ class SeleccionButacas : AppCompatActivity() {
             for(j in 1..10){
                 val id = (10*i) + j
 
-                var asiento = Butaca(id,i+1, j, false)
+                val asiento = Butaca(id,i+1, j, false)
                 asientos.add(asiento)
                 val imageView = ImageView(this)
                 imageView.setImageResource(R.drawable.seat)
