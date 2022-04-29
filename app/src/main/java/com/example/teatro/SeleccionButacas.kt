@@ -2,12 +2,15 @@ package com.example.teatro
 
 
 
+import android.os.Build
 import android.os.Bundle
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 
 
 class SeleccionButacas : AppCompatActivity() {
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val seleccionLayout = R.layout.seleccion_butacas
@@ -15,22 +18,32 @@ class SeleccionButacas : AppCompatActivity() {
         val tableLayout = findViewById<TableLayout>(R.id.tableLayout)
         val numberPicker = findViewById<NumberPicker>(R.id.numPicker)
         val seleccion = findViewById<TextView>(R.id.seleccionadas)
-        val linearLayout = findViewById<LinearLayout>(R.id.linearLayout)
-
-        val llh = LinearLayout(this)
-        llh.setOrientation(LinearLayout.HORIZONTAL)
-
+        var txtButaca1 = findViewById<TextView>(R.id.butaca1)
+        var txtButaca2 = findViewById<TextView>(R.id.butaca2)
 
         numberPicker.minValue = 0
         numberPicker.maxValue = 2
+
         seleccion.text = String.format(getString(R.string.text_sel) + " %s", numberPicker.value)
-        numberPicker.setOnValueChangedListener { picker, oldVal, newVal -> seleccion.text = String.format(getString(R.string.text_sel) + " %s", newVal) }
+        numberPicker.setOnValueChangedListener { picker, oldVal, newVal ->
+            seleccion.text = String.format(getString(R.string.text_sel) + " %s", newVal)
+
+            txtButaca1.text = if (newVal == 1 || newVal == 2)  getString(R.string.text_butaca1) else ""
+            txtButaca2.text = if (newVal == 2)  getString(R.string.text_butaca2) else ""
+        }
+
         var seatsSet = 0
+
+
         var seats = Array(50){
             false
         }
+
+
         var asientos = arrayListOf<Butaca>()
-        var butacasEscogidas = arrayListOf<Butaca>()
+
+        val btc = mutableMapOf<Int, Butaca>()
+
         for(i in 0..4){
             val row = TableRow(this)
             val paramsRow: TableLayout.LayoutParams =
@@ -65,28 +78,35 @@ class SeleccionButacas : AppCompatActivity() {
                                 seats[imageView.id - 1] = true
                                 seats[imageView.id] = true
                                 seatsSet+=2
-                                butacasEscogidas.add(asientos.get(imageView.id - 1))
-                                butacasEscogidas.add(asientos.get(imageView.id))
-                                val paramsTexto: LinearLayout.LayoutParams =
-                                LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT)
 
-                                val textoPrimerAsiento = TextView(this)
-                                textoPrimerAsiento.layoutParams = paramsTexto
-                                textoPrimerAsiento.text = String.format(getString(R.string.text_fila) + " %s, " + getString(R.string.text_columna) + " %s", asientos.get(imageView.id - 1).fila, asientos.get(imageView.id - 1).columna)
-                                llh.addView(textoPrimerAsiento)
+                                val b1 = asientos.get(imageView.id - 1)
+                                val b2 = asientos.get(imageView.id)
 
-                                val textoSegundoAsiento = TextView(this)
-                                textoSegundoAsiento.layoutParams = paramsTexto
-                                textoSegundoAsiento.text = String.format(getString(R.string.text_fila) + " %s, " + getString(R.string.text_columna) + " %s", asientos.get(imageView.id).fila, asientos.get(imageView.id).columna)
-                                llh.addView(textoSegundoAsiento)
+                                btc.put(1, b1)
+                                btc.put(2, b2)
 
-                                linearLayout.addView(llh)
+                                txtButaca1.text = String.format(getString(R.string.text_butaca1) + " " + getString(R.string.text_fila) + " %s, " + getString(R.string.text_columna) + " %s", b1.fila, b1.columna)
+
+                                txtButaca2.text = String.format(getString(R.string.text_butaca2) + " " + getString(R.string.text_fila) + " %s " + getString(R.string.text_columna) + " %s", b2.fila,b2.columna)
+
 
                             }else{
                                 imageView.alpha = 0.6F
                                 seats[imageView.id - 1] = true
                                 seatsSet++
-                                butacasEscogidas.add(asientos.get(imageView.id - 1))
+
+
+                                if(btc.containsKey(1)){
+                                    val b2 = asientos.get(imageView.id - 1)
+
+                                    btc.put(2, b2)
+                                    txtButaca2.text = String.format(getString(R.string.text_butaca2) + " " + getString(R.string.text_fila) + " %s, " + getString(R.string.text_columna) + " %s", b2.fila, b2.columna)
+                                }else{
+                                    val b1 = asientos.get(imageView.id - 1)
+                                    btc.put(1, b1)
+                                    txtButaca1.text = String.format(getString(R.string.text_butaca1) + " " + getString(R.string.text_fila) + " %s, " + getString(R.string.text_columna) + " %s", b1.fila, b1.columna)
+                                }
+
                             }
 
                         }
@@ -94,7 +114,16 @@ class SeleccionButacas : AppCompatActivity() {
                         imageView.alpha = 1F
                         seats[imageView.id - 1] = false
                         seatsSet--
-                        butacasEscogidas.remove(asientos.get(imageView.id - 1))
+
+
+                        val b = asientos.get(imageView.id - 1)
+                        if (btc.get(1) == b){
+                            btc.remove(1, b)
+                            txtButaca1.text = getString(R.string.text_butaca1)
+                        }else if(btc.get(2) == b){
+                            btc.remove(2, b)
+                            txtButaca2.text = getString(R.string.text_butaca2)
+                        }
                     }
 
                 }
