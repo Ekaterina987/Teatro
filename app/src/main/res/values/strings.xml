@@ -11,4 +11,5 @@
     <string name="text_no_sel">No puedes coger más butacas</string>
     <string name="text_compra">Has comprado las butacas</string>
     <string name="text_sel">Seleccionadas:</string>
+    <string name="text_ocupada">La butaca ya está ocupada</string>
 </resources>

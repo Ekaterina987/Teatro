@@ -11,7 +11,9 @@ import android.widget.TableRow
 class MainActivity : AppCompatActivity() {
     companion object {
         val listaButacas = arrayListOf<Butaca>()
+        var asientosLibres = 50
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -23,6 +25,7 @@ class MainActivity : AppCompatActivity() {
                 listaButacas.add(asiento)
             }
         }
+
 
         val buttonClick = findViewById<Button>(R.id.btnComprar)
         buttonClick.setOnClickListener {
