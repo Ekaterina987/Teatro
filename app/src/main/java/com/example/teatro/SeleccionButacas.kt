@@ -1,13 +1,10 @@
 package com.example.teatro
 
-
-
 import android.os.Build
 import android.os.Bundle
 import android.widget.*
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-
 
 class SeleccionButacas : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.N)
@@ -15,6 +12,7 @@ class SeleccionButacas : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val seleccionLayout = R.layout.seleccion_butacas
         setContentView(seleccionLayout)
+
         val tableLayout = findViewById<TableLayout>(R.id.tableLayout)
         val numberPicker = findViewById<NumberPicker>(R.id.numPicker)
         val seleccion = findViewById<TextView>(R.id.seleccionadas)
@@ -24,10 +22,14 @@ class SeleccionButacas : AppCompatActivity() {
         numberPicker.minValue = 0
         numberPicker.maxValue = 2
 
-        val btc = mutableMapOf<Int, Butaca>()
+        val seats = Array(50){
+            false
+        }
+        val asientos = MainActivity.listaButacas
+        val mapButacas = mutableMapOf<Int, Butaca>()
 
         seleccion.text = String.format(getString(R.string.text_sel) + " %s", numberPicker.value)
-        numberPicker.setOnValueChangedListener { picker, oldVal, newVal ->
+        numberPicker.setOnValueChangedListener { _, _, newVal ->
             seleccion.text = String.format(getString(R.string.text_sel) + " %s", newVal)
 
             if(newVal == 0){
@@ -35,40 +37,40 @@ class SeleccionButacas : AppCompatActivity() {
                 txtButaca2.text = ""
 
                 txtButaca2.text = ""
-                val bt1 = btc.get(1)
+                val bt1 = mapButacas[1]
                 if(bt1 != null){
                     val tRow = tableLayout.getChildAt(bt1.fila - 1) as TableRow
                     val img = tRow.getChildAt(bt1.columna - 1)
                     img.alpha = 1F
                 }
-                val bt2 = btc.get(2)
+                val bt2 = mapButacas[2]
                 if(bt2 != null){
                     val tRow = tableLayout.getChildAt(bt2.fila - 1) as TableRow
                     val img = tRow.getChildAt(bt2.columna - 1)
                     img.alpha = 1F
                 }
 
-                btc.remove(1)
-                btc.remove(2)
+                mapButacas.remove(1)
+                mapButacas.remove(2)
             }else if(newVal == 1){
                 txtButaca2.text = ""
-                val bt1 = btc.get(1)
+                val bt1 = mapButacas[1]
                 if(bt1 == null){
                     txtButaca1.text = getString(R.string.text_butaca1)
                 }
-                val bt2 = btc.get(2)
+                val bt2 = mapButacas[2]
                 if(bt2 != null){
                     val tRow = tableLayout.getChildAt(bt2.fila - 1) as TableRow
                     val img = tRow.getChildAt(bt2.columna - 1)
                     img.alpha = 1F
-                    btc.remove(2)
+                    mapButacas.remove(2)
                 }
             }else if(newVal ==2){
-                val bt1 = btc.get(1)
+                val bt1 = mapButacas[1]
                 if(bt1 == null){
                     txtButaca1.text = getString(R.string.text_butaca1)
                 }
-                val bt2 = btc.get(2)
+                val bt2 = mapButacas[2]
                 if(bt2 == null){
                     txtButaca2.text = getString(R.string.text_butaca2)
 
@@ -76,11 +78,6 @@ class SeleccionButacas : AppCompatActivity() {
             }
 
         }
-
-        val seats = Array(50){
-            false
-        }
-        val asientos = arrayListOf<Butaca>()
 
         for(i in 0..4){
             val row = TableRow(this)
@@ -90,10 +87,12 @@ class SeleccionButacas : AppCompatActivity() {
             for(j in 1..10){
                 val id = (10*i) + j
 
-                val asiento = Butaca(id,i+1, j, false)
-                asientos.add(asiento)
                 val imageView = ImageView(this)
-                imageView.setImageResource(R.drawable.seat)
+                if(asientos[id - 1].Ocupada){
+                    imageView.setImageResource(R.drawable.seat_ocupada2)
+                }else{
+                    imageView.setImageResource(R.drawable.seat_main2)
+                }
 
                 imageView.id = id
                 val params: TableRow.LayoutParams =
@@ -105,22 +104,31 @@ class SeleccionButacas : AppCompatActivity() {
 
                     if(!seats[imageView.id - 1]){
 
-                        if(btc.size>=numberPicker.value){
+                        if(mapButacas.size>=numberPicker.value){
                             Toast.makeText(this, getString(R.string.text_no_sel), Toast.LENGTH_SHORT).show()
                         }else {
 
-                            if(numberPicker.value == 2 && btc.size == 0){
+                            if(numberPicker.value == 2 && mapButacas.isEmpty()){
                                 imageView.alpha = 0.6F
-                                val imgView2 = findViewById<ImageView>(imageView.id + 1)
+                                val imgView2: ImageView?
+                                val b1 = asientos[imageView.id - 1]
+                                val b2: Butaca?
+                                if(imageView.id%10 == 0){
+                                    imgView2 = findViewById(imageView.id - 1)
+                                    b2 = asientos[imageView.id - 2]
+                                    seats[imageView.id - 2] = true
+                                }else{
+                                    imgView2 = findViewById(imageView.id + 1)
+                                    b2 = asientos[imageView.id]
+                                    seats[imageView.id] = true
+                                }
+
                                 imgView2.alpha = 0.6F
                                 seats[imageView.id - 1] = true
-                                seats[imageView.id] = true
 
-                                val b1 = asientos.get(imageView.id - 1)
-                                val b2 = asientos.get(imageView.id)
 
-                                btc.put(1, b1)
-                                btc.put(2, b2)
+                                mapButacas[1] = b1
+                                mapButacas[2] = b2
 
                                 txtButaca1.text = String.format(getString(R.string.text_butaca1) + " " + getString(R.string.text_fila) + " %s, " + getString(R.string.text_columna) + " %s", b1.fila, b1.columna)
 
@@ -130,14 +138,14 @@ class SeleccionButacas : AppCompatActivity() {
                                 imageView.alpha = 0.6F
                                 seats[imageView.id - 1] = true
 
-                                if(btc.containsKey(1)){
-                                    val b2 = asientos.get(imageView.id - 1)
+                                if(mapButacas.containsKey(1)){
+                                    val b2 = asientos[imageView.id - 1]
 
-                                    btc.put(2, b2)
+                                    mapButacas[2] = b2
                                     txtButaca2.text = String.format(getString(R.string.text_butaca2) + " " + getString(R.string.text_fila) + " %s, " + getString(R.string.text_columna) + " %s", b2.fila, b2.columna)
                                 }else{
-                                    val b1 = asientos.get(imageView.id - 1)
-                                    btc.put(1, b1)
+                                    val b1 = asientos[imageView.id - 1]
+                                    mapButacas[1] = b1
                                     txtButaca1.text = String.format(getString(R.string.text_butaca1) + " " + getString(R.string.text_fila) + " %s, " + getString(R.string.text_columna) + " %s", b1.fila, b1.columna)
                                 }
 
@@ -148,12 +156,12 @@ class SeleccionButacas : AppCompatActivity() {
                         imageView.alpha = 1F
                         seats[imageView.id - 1] = false
 
-                        val b = asientos.get(imageView.id - 1)
-                        if (btc.get(1) == b){
-                            btc.remove(1, b)
+                        val b = asientos[imageView.id - 1]
+                        if (mapButacas[1] == b){
+                            mapButacas.remove(1, b)
                             txtButaca1.text = getString(R.string.text_butaca1)
-                        }else if(btc.get(2) == b){
-                            btc.remove(2, b)
+                        }else if(mapButacas[2] == b){
+                            mapButacas.remove(2, b)
                             txtButaca2.text = getString(R.string.text_butaca2)
                         }
                     }
@@ -165,6 +173,17 @@ class SeleccionButacas : AppCompatActivity() {
         }
         val btnComprar = findViewById<Button>(R.id.btnComprarEntrada)
         btnComprar.setOnClickListener {
+            val bt1 = mapButacas[1]
+            if(bt1!=null){
+                val primeraButaca = asientos[bt1.id - 1]
+                primeraButaca.Ocupada = true
+            }
+            val bt2 = mapButacas[2]
+            if(bt2 != null){
+                val segundaButaca = asientos[bt2.id - 1]
+                segundaButaca.Ocupada = true
+            }
+
             Toast.makeText(this, getString(R.string.text_compra), Toast.LENGTH_LONG).show()
         }
 
