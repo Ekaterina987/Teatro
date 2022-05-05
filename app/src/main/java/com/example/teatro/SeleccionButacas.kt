@@ -208,10 +208,7 @@ class SeleccionButacas : AppCompatActivity() {
                 val i2 = id - i
                 val i3 = id - 10*i
                 val i4 = id + 10*i
-                val i5 = (id - i*10) - i
-                val i6 = (id - i*10) + i
-                val i7 = (id + i*10) + i
-                val i8 = id + (i*10 - i)
+
 
                 if(i1 <= 50 && (i1 % 10) > (id % 10) && !butacas[i1].Ocupada){
                     println(1)
@@ -231,26 +228,36 @@ class SeleccionButacas : AppCompatActivity() {
                     println(4)
                     encontrado = true
                     asiento = butacas[i4]
-                }
-                else if(i5 >= 0 && (i2 % 10) < (id % 10) && !butacas[i5].Ocupada){
-                    println(5)
-                    encontrado = true
-                    asiento = butacas[i5]
-                }
-                else if(i6 >= 0 && (i1 % 10) > (id % 10) && !butacas[i6].Ocupada){
-                    println(6)
-                    encontrado = true
-                    asiento = butacas[i6]
-                }
-                else if(i7 <= 50 && (i1 % 10) > (id % 10) && !butacas[i7].Ocupada){
-                    println(7)
-                    encontrado = true
-                    asiento = butacas[i7]
-                }
-                else if(i8 <= 50 && (i2 - i % 10) < (id % 10) && !butacas[i8].Ocupada){
-                    println(8)
-                    encontrado = true
-                    asiento = butacas[i8]
+                }else{
+                    var j = 1
+                    val i5 = (id - i*10) - j
+                    val i6 = (id - i*10) + j
+                    val i7 = (id + i*10) + j
+                    val i8 = id + (i*10 - j)
+                    while(j <= i && !encontrado){
+                        if(i5 >= 0 && ((id - j) % 10) < (id % 10) && !butacas[i5].Ocupada){
+                            println(5)
+                            encontrado = true
+                            asiento = butacas[i5]
+                        }
+                        else if(i6 >= 0 && ((id + j) % 10) > (id % 10) && !butacas[i6].Ocupada){
+                            println(6)
+                            encontrado = true
+                            asiento = butacas[i6]
+                        }
+                        else if(i7 <= 50 && ((id + j) % 10) > (id % 10) && !butacas[i7].Ocupada){
+                            println(7)
+                            encontrado = true
+                            asiento = butacas[i7]
+                        }
+                        else if(i8 <= 50 && ((id - j) % 10) < (id % 10) && !butacas[i8].Ocupada){
+                            println(8)
+                            encontrado = true
+                            asiento = butacas[i8]
+                        }
+                        j++
+                    }
+
                 }
                 i++
             }
