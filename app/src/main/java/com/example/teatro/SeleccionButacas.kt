@@ -1,5 +1,6 @@
 package com.example.teatro
 
+import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.widget.*
@@ -14,14 +15,22 @@ class SeleccionButacas : AppCompatActivity() {
         setContentView(seleccionLayout)
 
         val tableLayout = findViewById<TableLayout>(R.id.tableLayout)
-        val numberPicker = findViewById<NumberPicker>(R.id.numPicker)
-        val seleccion = findViewById<TextView>(R.id.seleccionadas)
         val txtButaca1 = findViewById<TextView>(R.id.butaca1)
         val txtButaca2 = findViewById<TextView>(R.id.butaca2)
+        val btnVolver = findViewById<TextView>(R.id.btnVolver)
 
         var asientosLibres = MainActivity.asientosLibres
-        numberPicker.minValue = 0
-        numberPicker.maxValue = if (asientosLibres >= 2) 2 else asientosLibres
+        val cantidadButacas = MainActivity.cantidadButacas
+
+        when(cantidadButacas){
+            1 -> txtButaca1.text = getString(R.string.text_butaca1)
+            2 -> {
+                txtButaca1.text = getString(R.string.text_butaca1)
+                txtButaca2.text = getString(R.string.text_butaca2)
+            }
+        }
+
+
 
         val seats = Array(50){
             false
@@ -29,56 +38,7 @@ class SeleccionButacas : AppCompatActivity() {
         val asientos = MainActivity.listaButacas
         val mapButacas = mutableMapOf<Int, Butaca>()
 
-        seleccion.text = String.format(getString(R.string.text_sel) + " %s", numberPicker.value)
-        numberPicker.setOnValueChangedListener { _, _, newVal ->
-            seleccion.text = String.format(getString(R.string.text_sel) + " %s", newVal)
 
-            if(newVal == 0){
-                txtButaca1.text = ""
-                txtButaca2.text = ""
-
-                txtButaca2.text = ""
-                val bt1 = mapButacas[1]
-                if(bt1 != null){
-                    val tRow = tableLayout.getChildAt(bt1.fila - 1) as TableRow
-                    val img = tRow.getChildAt(bt1.columna - 1)
-                    img.alpha = 1F
-                }
-                val bt2 = mapButacas[2]
-                if(bt2 != null){
-                    val tRow = tableLayout.getChildAt(bt2.fila - 1) as TableRow
-                    val img = tRow.getChildAt(bt2.columna - 1)
-                    img.alpha = 1F
-                }
-
-                mapButacas.remove(1)
-                mapButacas.remove(2)
-            }else if(newVal == 1){
-                txtButaca2.text = ""
-                val bt1 = mapButacas[1]
-                if(bt1 == null){
-                    txtButaca1.text = getString(R.string.text_butaca1)
-                }
-                val bt2 = mapButacas[2]
-                if(bt2 != null){
-                    val tRow = tableLayout.getChildAt(bt2.fila - 1) as TableRow
-                    val img = tRow.getChildAt(bt2.columna - 1)
-                    img.alpha = 1F
-                    mapButacas.remove(2)
-                }
-            }else if(newVal ==2){
-                val bt1 = mapButacas[1]
-                if(bt1 == null){
-                    txtButaca1.text = getString(R.string.text_butaca1)
-                }
-                val bt2 = mapButacas[2]
-                if(bt2 == null){
-                    txtButaca2.text = getString(R.string.text_butaca2)
-
-                }
-            }
-
-        }
 
         for(i in 0..4){
             val row = TableRow(this)
@@ -105,13 +65,13 @@ class SeleccionButacas : AppCompatActivity() {
 
                     if(!seats[imageView.id - 1]){
 
-                        if(mapButacas.size>=numberPicker.value){
+                        if(mapButacas.size>=cantidadButacas){
                             Toast.makeText(this, getString(R.string.text_no_sel), Toast.LENGTH_SHORT).show()
                         }else if(asientos[imageView.id - 1].Ocupada){
                             Toast.makeText(this, getString(R.string.text_ocupada), Toast.LENGTH_SHORT).show()
                         }else {
 
-                            if(numberPicker.value == 2 && mapButacas.isEmpty()){
+                            if(cantidadButacas == 2 && mapButacas.isEmpty()){
                                 imageView.alpha = 0.6F
                                 var imgView2: ImageView? = null
                                 val b1 = asientos[imageView.id - 1]
@@ -186,6 +146,10 @@ class SeleccionButacas : AppCompatActivity() {
             }
             MainActivity.asientosLibres = asientosLibres
             Toast.makeText(this, getString(R.string.text_compra), Toast.LENGTH_LONG).show()
+        }
+        btnVolver.setOnClickListener{
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
         }
 
     }

@@ -6,38 +6,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".SeleccionButacas"
-    android:padding="20dp"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
     android:gravity="center">
 
-    <LinearLayout
+    <TextView
+        android:id="@+id/textView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/text_num"
-            android:layout_marginEnd="20dp"/>
-
-        <NumberPicker
-            android:id="@+id/numPicker"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp">
-
-        </NumberPicker>
-    </LinearLayout>
-
-
-    <TextView
-        android:id="@+id/seleccionadas"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:layout_marginBottom="10dp"
-        />
-
+        android:text="@string/text_seleccionar"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="10dp"/>
     <TableLayout
         android:id="@+id/tableLayout"
         android:layout_width="match_parent"
@@ -47,6 +28,30 @@
         android:layout_marginBottom="10dp"
         />
 
+
+
+    <LinearLayout
+        android:id="@+id/butacasLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:gravity="center">
+        <TextView
+            android:id="@+id/butaca1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textAlignment="center"/>
+        <TextView
+            android:id="@+id/butaca2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textAlignment="center"/>
+
+    </LinearLayout>
     <Button
         android:id="@+id/btnComprarEntrada"
         android:layout_width="wrap_content"
@@ -55,24 +60,14 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"/>
 
-    <LinearLayout
-        android:id="@+id/butacasLayout"
-        android:layout_width="match_parent"
+    <Button
+        android:id="@+id/btnVolver"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-        <TextView
-            android:id="@+id/butaca1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text=""/>
-        <TextView
-            android:id="@+id/butaca2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text=""/>
-
-    </LinearLayout>
-
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:backgroundTint="@color/purple_200"
+        android:text="@string/text_volver" />
 
 
 </LinearLayout>

@@ -3,7 +3,7 @@
     <string name="texto_teatro">Teatro: Apolo</string>
     <string name="texto_obra">Obra: La Celestina</string>
     <string name="text_comprar">Comprar entradas</string>
-    <string name="text_num">Número de butacas</string>
+    <string name="text_num">Cantidad:</string>
     <string name="text_fila">Fila: </string>
     <string name="text_columna">Columna: </string>
     <string name="text_butaca1">Butaca 1: </string>
@@ -12,4 +12,7 @@
     <string name="text_compra">Has comprado las butacas</string>
     <string name="text_sel">Seleccionadas:</string>
     <string name="text_ocupada">La butaca ya está ocupada</string>
+    <string name="text_volver">Volver al inicio</string>
+    <string name="text_seleccionar">Selecciona las butacas</string>
+    <string name="text_moneda">€</string>
 </resources>
