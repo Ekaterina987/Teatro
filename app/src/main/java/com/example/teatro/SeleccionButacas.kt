@@ -219,15 +219,6 @@ class SeleccionButacas : AppCompatActivity() {
                     println(2)
                     encontrado = true
                     asiento = butacas[i2]
-                }else if(i3 >= 0 && !butacas[i3].Ocupada){
-                    println(3)
-                    encontrado = true
-                    asiento = butacas[i3]
-                }
-                else if(i4 <= 50 && !butacas[i4].Ocupada){
-                    println(4)
-                    encontrado = true
-                    asiento = butacas[i4]
                 }else{
                     var j = 1
                     while(j <= i && !encontrado){
@@ -260,6 +251,16 @@ class SeleccionButacas : AppCompatActivity() {
                             k++
                         }
                         j++
+                    }
+                    if(i3 >= 0 && !butacas[i3].Ocupada){
+                        println(3)
+                        encontrado = true
+                        asiento = butacas[i3]
+                    }
+                    else if(i4 <= 50 && !butacas[i4].Ocupada){
+                        println(4)
+                        encontrado = true
+                        asiento = butacas[i4]
                     }
 
                 }
