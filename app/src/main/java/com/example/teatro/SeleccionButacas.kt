@@ -230,30 +230,34 @@ class SeleccionButacas : AppCompatActivity() {
                     asiento = butacas[i4]
                 }else{
                     var j = 1
-                    val i5 = (id - i*10) - j
-                    val i6 = (id - i*10) + j
-                    val i7 = (id + i*10) + j
-                    val i8 = id + (i*10 - j)
                     while(j <= i && !encontrado){
-                        if(i5 >= 0 && ((id - j) % 10) < (id % 10) && !butacas[i5].Ocupada){
-                            println(5)
-                            encontrado = true
-                            asiento = butacas[i5]
-                        }
-                        else if(i6 >= 0 && ((id + j) % 10) > (id % 10) && !butacas[i6].Ocupada){
-                            println(6)
-                            encontrado = true
-                            asiento = butacas[i6]
-                        }
-                        else if(i7 <= 50 && ((id + j) % 10) > (id % 10) && !butacas[i7].Ocupada){
-                            println(7)
-                            encontrado = true
-                            asiento = butacas[i7]
-                        }
-                        else if(i8 <= 50 && ((id - j) % 10) < (id % 10) && !butacas[i8].Ocupada){
-                            println(8)
-                            encontrado = true
-                            asiento = butacas[i8]
+                        var k = 1
+                        while(k <= i && !encontrado){
+                            val i5 = (id - j*10) - k
+                            val i6 = (id - j*10) + k
+                            val i7 = (id + j*10) + k
+                            val i8 = id + (j*10 - k)
+                            if(i5 >= 0 && ((id - k) % 10) < (id % 10) && !butacas[i5].Ocupada){
+                                println(5)
+                                encontrado = true
+                                asiento = butacas[i5]
+                            }
+                            else if(i6 >= 0 && ((id + k) % 10) > (id % 10) && !butacas[i6].Ocupada){
+                                println(6)
+                                encontrado = true
+                                asiento = butacas[i6]
+                            }
+                            else if(i7 <= 50 && ((id + k) % 10) > (id % 10) && !butacas[i7].Ocupada){
+                                println(7)
+                                encontrado = true
+                                asiento = butacas[i7]
+                            }
+                            else if(i8 <= 50 && ((id - k) % 10) < (id % 10) && !butacas[i8].Ocupada){
+                                println(8)
+                                encontrado = true
+                                asiento = butacas[i8]
+                            }
+                            k++
                         }
                         j++
                     }
