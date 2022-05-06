@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.*
 
+
 class MainActivity : AppCompatActivity() {
     companion object {
         val listaButacas = arrayListOf<Butaca>()
@@ -45,18 +46,31 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
-
+        comprarEntradas()
         buttonClick.setOnClickListener {
             cantidadButacas = numberPicker.value
             val intent = Intent(this, SeleccionButacas::class.java)
             startActivity(intent)
         }
+
     }
     fun btnDisable(button: Button) {
         button.isEnabled = false
     }
     fun btnEnable(button: Button) {
         button.isEnabled = true
+    }
+
+    fun comprarEntradas(){
+        var filosofo1 = Filosofo(1, "filosofo 1")
+        val randomNum = (1..2).random()
+        val numberPicker = findViewById<NumberPicker>(R.id.numPicker)
+        val textCantidad = findViewById<TextView>(R.id.textPrecio)
+        numberPicker.value = randomNum
+        cantidadButacas = numberPicker.value
+        val intent = Intent(this, SeleccionButacas::class.java)
+        startActivity(intent)
+
     }
 
 }
