@@ -19,7 +19,6 @@ class SeleccionButacas : AppCompatActivity() {
         val txtButaca2 = findViewById<TextView>(R.id.butaca2)
         val btnVolver = findViewById<TextView>(R.id.btnVolver)
 
-        var asientosLibres = MainActivity.asientosLibres
         val cantidadButacas = MainActivity.cantidadButacas
 
         when(cantidadButacas){
@@ -58,69 +57,7 @@ class SeleccionButacas : AppCompatActivity() {
                 seats[imageView.id - 1] = false
 
                 imageView.setOnClickListener{
-
-                    if(!seats[imageView.id - 1]){
-
-                        if(mapButacas.size>=cantidadButacas){
-                            Toast.makeText(this, getString(R.string.text_no_sel), Toast.LENGTH_SHORT).show()
-                        }else if(asientos[imageView.id - 1].Ocupada){
-                            Toast.makeText(this, getString(R.string.text_ocupada), Toast.LENGTH_SHORT).show()
-                        }else {
-
-                            if(cantidadButacas == 2 && mapButacas.isEmpty()){
-                                imageView.alpha = 0.6F
-                                var imgView2: ImageView? = null
-                                val b1 = asientos[imageView.id - 1]
-
-                                val indice = imageView.id - 1
-                                val b2 = encontrarAsiento(indice, asientos)
-
-                                if(b2!=null){
-                                    seats[b2.id - 1] = true
-                                    imgView2 = findViewById(b2.id)
-                                }
-
-                                txtButaca1.text = String.format(getString(R.string.text_butaca1) + " " + getString(R.string.text_fila) + " %s, " + getString(R.string.text_columna) + " %s", b1.fila, b1.columna)
-                                if(imgView2!=null && b2!=null){
-                                    imgView2.alpha = 0.6F
-                                    seats[imageView.id - 1] = true
-                                    mapButacas[1] = b1
-                                    mapButacas[2] = b2
-                                    txtButaca2.text = String.format(getString(R.string.text_butaca2) + " " + getString(R.string.text_fila) + " %s " + getString(R.string.text_columna) + " %s", b2.fila,b2.columna)
-                                }
-
-                            }else{
-                                imageView.alpha = 0.6F
-                                seats[imageView.id - 1] = true
-
-                                if(mapButacas.containsKey(1)){
-                                    val b2 = asientos[imageView.id - 1]
-
-                                    mapButacas[2] = b2
-                                    txtButaca2.text = String.format(getString(R.string.text_butaca2) + " " + getString(R.string.text_fila) + " %s, " + getString(R.string.text_columna) + " %s", b2.fila, b2.columna)
-                                }else{
-                                    val b1 = asientos[imageView.id - 1]
-                                    mapButacas[1] = b1
-                                    txtButaca1.text = String.format(getString(R.string.text_butaca1) + " " + getString(R.string.text_fila) + " %s, " + getString(R.string.text_columna) + " %s", b1.fila, b1.columna)
-                                }
-
-                            }
-
-                        }
-                    }else{
-                        imageView.alpha = 1F
-                        seats[imageView.id - 1] = false
-
-                        val b = asientos[imageView.id - 1]
-                        if (mapButacas[1] == b){
-                            mapButacas.remove(1, b)
-                            txtButaca1.text = getString(R.string.text_butaca1)
-                        }else if(mapButacas[2] == b){
-                            mapButacas.remove(2, b)
-                            txtButaca2.text = getString(R.string.text_butaca2)
-                        }
-                    }
-
+                    clickButaca(imageView, seats, mapButacas, asientos, txtButaca1, txtButaca2, cantidadButacas)
                 }
                 row.addView(imageView)
             }
@@ -128,24 +65,10 @@ class SeleccionButacas : AppCompatActivity() {
         }
         val btnComprar = findViewById<Button>(R.id.btnComprarEntrada)
         btnComprar.setOnClickListener {
-            val bt1 = mapButacas[1]
-            if(bt1!=null){
-                val primeraButaca = asientos[bt1.id - 1]
-                primeraButaca.Ocupada = true
-                asientosLibres--
-            }
-            val bt2 = mapButacas[2]
-            if(bt2 != null){
-                val segundaButaca = asientos[bt2.id - 1]
-                segundaButaca.Ocupada = true
-                asientosLibres--
-            }
-            MainActivity.asientosLibres = asientosLibres
-            Toast.makeText(this, getString(R.string.text_compra), Toast.LENGTH_LONG).show()
+            comprar(mapButacas, asientos)
         }
         btnVolver.setOnClickListener{
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
+            volver()
         }
 
     }
@@ -231,16 +154,17 @@ class SeleccionButacas : AppCompatActivity() {
         return asiento
     }
     @RequiresApi(Build.VERSION_CODES.N)
-    fun clickButaca(imageView: ImageView, seats: Array<Boolean>, mapButacas: MutableMap<Int, Butaca>, numberPicker: NumberPicker, asientos: ArrayList<Butaca>, txtButaca1: TextView, txtButaca2: TextView){
+    fun clickButaca(imageView: ImageView, seats: Array<Boolean>, mapButacas: MutableMap<Int, Butaca>,
+                    asientos: ArrayList<Butaca>, txtButaca1: TextView, txtButaca2: TextView, cantidadButacas: Int){
         if(!seats[imageView.id - 1]){
 
-            if(mapButacas.size>=numberPicker.value){
+            if(mapButacas.size>=cantidadButacas){
                 Toast.makeText(this, getString(R.string.text_no_sel), Toast.LENGTH_SHORT).show()
             }else if(asientos[imageView.id - 1].Ocupada){
                 Toast.makeText(this, getString(R.string.text_ocupada), Toast.LENGTH_SHORT).show()
             }else {
 
-                if(numberPicker.value == 2 && mapButacas.isEmpty()){
+                if(cantidadButacas == 2 && mapButacas.isEmpty()){
                     imageView.alpha = 0.6F
                     var imgView2: ImageView? = null
                     val b1 = asientos[imageView.id - 1]
@@ -293,6 +217,27 @@ class SeleccionButacas : AppCompatActivity() {
                 txtButaca2.text = getString(R.string.text_butaca2)
             }
         }
+    }
+    fun volver(){
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+    }
+    fun comprar(mapButacas: MutableMap<Int, Butaca>, asientos: ArrayList<Butaca>){
+        var asientosLibres = MainActivity.asientosLibres
+        val bt1 = mapButacas[1]
+        if(bt1!=null){
+            val primeraButaca = asientos[bt1.id - 1]
+            primeraButaca.Ocupada = true
+            asientosLibres--
+        }
+        val bt2 = mapButacas[2]
+        if(bt2 != null){
+            val segundaButaca = asientos[bt2.id - 1]
+            segundaButaca.Ocupada = true
+            asientosLibres--
+        }
+        MainActivity.asientosLibres = asientosLibres
+        Toast.makeText(this, getString(R.string.text_compra), Toast.LENGTH_LONG).show()
     }
 
 }
