@@ -17,4 +17,8 @@
     <string name="text_volver">Volver al inicio</string>
     <string name="text_seleccionar">Selecciona las butacas</string>
     <string name="text_moneda">€</string>
+    <string name="text_leyenda">Leyenda</string>
+    <string name="text_leyenda_libre">Asiento libre</string>
+    <string name="text_leyenda_ocupado">Asiento ocupado</string>
+    <string name="text_leyenda_seleccionado">Asiento seleccionado</string>
 </resources>
