@@ -16,8 +16,9 @@
         android:layout_height="wrap_content"
         android:text="@string/text_seleccionar"
         android:textAlignment="center"
-        android:textSize="24sp"
-        android:textStyle="bold"
+        android:fontFamily="@font/quicksand_medium"
+        android:textSize="23sp"
+        android:textStyle="normal"
         android:layout_marginBottom="10dp"/>
     <TableLayout
         android:id="@+id/tableLayout"
@@ -66,7 +67,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
-        android:backgroundTint="@color/purple_200"
+        android:backgroundTint="@color/intense_blue"
         android:text="@string/text_volver" />
 
 

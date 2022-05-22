@@ -1,5 +1,7 @@
 package com.example.teatro
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
@@ -13,7 +15,6 @@ class SeleccionButacas : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         val seleccionLayout = R.layout.seleccion_butacas
         setContentView(seleccionLayout)
-
         val tableLayout = findViewById<TableLayout>(R.id.tableLayout)
         val txtButaca1 = findViewById<TextView>(R.id.butaca1)
         val txtButaca2 = findViewById<TextView>(R.id.butaca2)
@@ -45,14 +46,14 @@ class SeleccionButacas : AppCompatActivity() {
 
                 val imageView = ImageView(this)
                 if(asientos[id - 1].Ocupada){
-                    imageView.setImageResource(R.drawable.seat_ocupada2)
+                    imageView.setImageResource(R.drawable.seat_ocupada4)
                 }else{
-                    imageView.setImageResource(R.drawable.seat_main2)
+                    imageView.setImageResource(R.drawable.seat_main5)
                 }
 
                 imageView.id = id
                 val params: TableRow.LayoutParams =
-                    TableRow.LayoutParams(95, 95)
+                    TableRow.LayoutParams(90, 90)
                 imageView.layoutParams = params
                 seats[imageView.id - 1] = false
 
@@ -61,8 +62,34 @@ class SeleccionButacas : AppCompatActivity() {
                 }
                 row.addView(imageView)
             }
+            val numFila = TextView(this)
+            val paramsFila: TableRow.LayoutParams =
+                TableRow.LayoutParams(90, 90)
+            numFila.layoutParams = paramsFila
+            val fila = i + 1
+            numFila.text = String.format(getString(R.string.text_f) + "%s", fila)
+            row.layoutParams = paramsRow
+            row.addView(numFila)
+
             tableLayout.addView(row)
         }
+
+        val row1 = TableRow(this)
+        val paramsRow1: TableLayout.LayoutParams =
+            TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.MATCH_PARENT)
+        row1.layoutParams = paramsRow1
+        for (k in 1..10){
+            val numCol = TextView(this)
+            val paramsCol: TableRow.LayoutParams =
+                TableRow.LayoutParams(90, 90)
+            numCol.layoutParams = paramsCol
+            val col = k
+            numCol.text = String.format(getString(R.string.text_c) + "%s", col)
+            row1.layoutParams = paramsRow1
+            row1.addView(numCol)
+        }
+        tableLayout.addView(row1)
+
         val btnComprar = findViewById<Button>(R.id.btnComprarEntrada)
         btnComprar.setOnClickListener {
             comprar(mapButacas, asientos)
@@ -177,13 +204,13 @@ class SeleccionButacas : AppCompatActivity() {
                         imgView2 = findViewById(b2.id)
                     }
 
-                    txtButaca1.text = String.format(getString(R.string.text_butaca1) + " " + getString(R.string.text_fila) + " %s, " + getString(R.string.text_columna) + " %s", b1.fila, b1.columna)
+                    txtButaca1.text = String.format(getString(R.string.text_butaca1) + " " + getString(R.string.text_fila) + ": %s, " + getString(R.string.text_columna) + ": %s", b1.fila, b1.columna)
                     if(imgView2!=null && b2!=null){
                         imgView2.alpha = 0.6F
                         seats[imageView.id - 1] = true
                         mapButacas[1] = b1
                         mapButacas[2] = b2
-                        txtButaca2.text = String.format(getString(R.string.text_butaca2) + " " + getString(R.string.text_fila) + " %s " + getString(R.string.text_columna) + " %s", b2.fila,b2.columna)
+                        txtButaca2.text = String.format(getString(R.string.text_butaca2) + " " + getString(R.string.text_fila) + ": %s " + getString(R.string.text_columna) + ": %s", b2.fila,b2.columna)
                     }
 
                 }else{
@@ -194,11 +221,11 @@ class SeleccionButacas : AppCompatActivity() {
                         val b2 = asientos[imageView.id - 1]
 
                         mapButacas[2] = b2
-                        txtButaca2.text = String.format(getString(R.string.text_butaca2) + " " + getString(R.string.text_fila) + " %s, " + getString(R.string.text_columna) + " %s", b2.fila, b2.columna)
+                        txtButaca2.text = String.format(getString(R.string.text_butaca2) + " " + getString(R.string.text_fila) + ": %s, " + getString(R.string.text_columna) + ": %s", b2.fila, b2.columna)
                     }else{
                         val b1 = asientos[imageView.id - 1]
                         mapButacas[1] = b1
-                        txtButaca1.text = String.format(getString(R.string.text_butaca1) + " " + getString(R.string.text_fila) + " %s, " + getString(R.string.text_columna) + " %s", b1.fila, b1.columna)
+                        txtButaca1.text = String.format(getString(R.string.text_butaca1) + " " + getString(R.string.text_fila) + ": %s, " + getString(R.string.text_columna) + ": %s", b1.fila, b1.columna)
                     }
 
                 }

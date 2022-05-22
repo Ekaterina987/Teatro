@@ -1,11 +1,13 @@
 <resources>
-    <string name="app_name">Teatro</string>
-    <string name="texto_teatro">Teatro: Apolo</string>
-    <string name="texto_obra">Obra: La Celestina</string>
+    <string name="app_name">Teatro Atenea</string>
+    <string name="texto_teatro">Compra tus entradas</string>
+    <string name="texto_obra">La Celestina</string>
     <string name="text_comprar">Comprar entradas</string>
     <string name="text_num">Cantidad:</string>
-    <string name="text_fila">Fila: </string>
-    <string name="text_columna">Columna: </string>
+    <string name="text_fila">Fila</string>
+    <string name="text_columna">Asiento</string>
+    <string name="text_f">F</string>
+    <string name="text_c">A</string>
     <string name="text_butaca1">Butaca 1: </string>
     <string name="text_butaca2">Butaca 2: </string>
     <string name="text_no_sel">No puedes coger más butacas</string>
