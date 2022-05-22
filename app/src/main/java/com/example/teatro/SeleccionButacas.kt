@@ -30,15 +30,11 @@ class SeleccionButacas : AppCompatActivity() {
             }
         }
 
-
-
         val seats = Array(50){
             false
         }
         val asientos = MainActivity.listaButacas
         val mapButacas = mutableMapOf<Int, Butaca>()
-
-
 
         for(i in 0..4){
             val row = TableRow(this)
@@ -233,6 +229,70 @@ class SeleccionButacas : AppCompatActivity() {
 
         }
         return asiento
+    }
+    @RequiresApi(Build.VERSION_CODES.N)
+    fun clickButaca(imageView: ImageView, seats: Array<Boolean>, mapButacas: MutableMap<Int, Butaca>, numberPicker: NumberPicker, asientos: ArrayList<Butaca>, txtButaca1: TextView, txtButaca2: TextView){
+        if(!seats[imageView.id - 1]){
+
+            if(mapButacas.size>=numberPicker.value){
+                Toast.makeText(this, getString(R.string.text_no_sel), Toast.LENGTH_SHORT).show()
+            }else if(asientos[imageView.id - 1].Ocupada){
+                Toast.makeText(this, getString(R.string.text_ocupada), Toast.LENGTH_SHORT).show()
+            }else {
+
+                if(numberPicker.value == 2 && mapButacas.isEmpty()){
+                    imageView.alpha = 0.6F
+                    var imgView2: ImageView? = null
+                    val b1 = asientos[imageView.id - 1]
+
+                    val indice = imageView.id - 1
+                    val b2 = encontrarAsiento(indice, asientos)
+
+                    if(b2!=null){
+                        seats[b2.id - 1] = true
+                        imgView2 = findViewById(b2.id)
+                    }
+
+                    txtButaca1.text = String.format(getString(R.string.text_butaca1) + " " + getString(R.string.text_fila) + " %s, " + getString(R.string.text_columna) + " %s", b1.fila, b1.columna)
+                    if(imgView2!=null && b2!=null){
+                        imgView2.alpha = 0.6F
+                        seats[imageView.id - 1] = true
+                        mapButacas[1] = b1
+                        mapButacas[2] = b2
+                        txtButaca2.text = String.format(getString(R.string.text_butaca2) + " " + getString(R.string.text_fila) + " %s " + getString(R.string.text_columna) + " %s", b2.fila,b2.columna)
+                    }
+
+                }else{
+                    imageView.alpha = 0.6F
+                    seats[imageView.id - 1] = true
+
+                    if(mapButacas.containsKey(1)){
+                        val b2 = asientos[imageView.id - 1]
+
+                        mapButacas[2] = b2
+                        txtButaca2.text = String.format(getString(R.string.text_butaca2) + " " + getString(R.string.text_fila) + " %s, " + getString(R.string.text_columna) + " %s", b2.fila, b2.columna)
+                    }else{
+                        val b1 = asientos[imageView.id - 1]
+                        mapButacas[1] = b1
+                        txtButaca1.text = String.format(getString(R.string.text_butaca1) + " " + getString(R.string.text_fila) + " %s, " + getString(R.string.text_columna) + " %s", b1.fila, b1.columna)
+                    }
+
+                }
+
+            }
+        }else{
+            imageView.alpha = 1F
+            seats[imageView.id - 1] = false
+
+            val b = asientos[imageView.id - 1]
+            if (mapButacas[1] == b){
+                mapButacas.remove(1, b)
+                txtButaca1.text = getString(R.string.text_butaca1)
+            }else if(mapButacas[2] == b){
+                mapButacas.remove(2, b)
+                txtButaca2.text = getString(R.string.text_butaca2)
+            }
+        }
     }
 
 }
